@@ -19,8 +19,8 @@
           <i>hello</i>
           <h2>基于iview开发管理系统后台</h2>
           <span>
-            <span>xxx</span>
-            <Icon type="ios-exit-outline" title="退出"/>
+            <span class="uername">xxx</span>
+            <Button size="small" icon="ios-download-outline" type="primary" title="退出" @click="exit">退出</Button>
           </span>
         </Header>
         <Content>
@@ -31,7 +31,20 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+    data () {
+        return {
+            
+        }
+    },
+    methods: {
+        exit(){
+            //退出需要做两件事 1清除token  2.路由跳转
+            window.localStorage.clear()
+            this.$router.push('/')
+        }
+    },
+};
 </script>
 
 <style  lang="scss" scoped>
@@ -67,8 +80,9 @@ export default {};
     h2 {
       font-size: 30px;
     }
-    span {
-      font-size: 30px;
+    .uername {
+      font-size: 14px;
+      margin-right: 10px;
     }
   }
 }

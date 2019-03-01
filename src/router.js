@@ -9,7 +9,7 @@ import home from './views/home.vue'
 import user from './components/user/user.vue'
 import welcome from './components/welcome/welcome.vue'
 
-export default new Router({
+const router = new Router({
   routes: [
     {path:"/",redirect: '/login'},
     {path:"/login",component:login},
@@ -22,3 +22,19 @@ export default new Router({
     }
   ]
 })
+
+
+// 设置路由导航守卫
+router.beforeEach((to, from, next) => {
+  // console.log(to.path)
+  const token = window.localStorage.getItem("mytoken")
+  if (to.path === "/login") return next()
+  if (!token) return next("/")
+  next()
+})
+
+
+
+
+//导出路由实例
+export default router

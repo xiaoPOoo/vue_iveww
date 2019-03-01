@@ -4,13 +4,18 @@
     <h1>基于vue开发的电商后台管理系统</h1>
     <template>
       <Form ref="formInline" :model="formInline" :rules="ruleInline">
-        <FormItem prop="user">
-          <Input type="text" v-model="formInline.user" placeholder="账号">
+        <FormItem prop="username">
+          <Input type="text" v-model="formInline.username" placeholder="账号">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
         <FormItem prop="password">
-          <Input type="password" v-model="formInline.password" placeholder="密码">
+          <Input
+            type="password"
+            v-model="formInline.password"
+            placeholder="密码"
+            @keydown.enter.native="handleSubmit('formInline')"
+          >
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
@@ -27,11 +32,11 @@ export default {
   data() {
     return {
       formInline: {
-        user: "",
+        username: "",
         password: ""
       },
       ruleInline: {
-        user: [
+        username: [
           {
             required: true,
             message: "请输入姓名",
@@ -56,12 +61,18 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      this.$refs[name].validate(valid => {
-        if (valid) {
-          this.$Message.success("Success!");
-        } else {
-          this.$Message.error("Fail!");
-        }
+      this.$refs[name].validate(async valid => {
+        if (!valid) return;
+        const { data: res } = await this.$http.post("login", this.formInline)
+        if (res.meta.status !== 200) return this.$Message.error("登录失败")
+        console.log(res)
+        //如果登录成功需要将token 先保存在本localStroe上
+        const token = res.data.token
+        localStorage.setItem("mytoken", token)
+        // 登录成功即需要路由跳转 (编程式路由导航)
+        this.$router.push('/home')
+        this.$Message.success("登录成功")
+        console.log(res);
       });
     }
   }
