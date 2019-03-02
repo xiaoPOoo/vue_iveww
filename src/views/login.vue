@@ -66,7 +66,6 @@ export default {
         if (!valid) return
         const { data: res } = await this.$http.post("login", this.formInline)
         if (res.meta.status !== 200) return this.$Message.error("登录失败")
-        console.log(res)
         //如果登录成功需要将token 先保存在本localStroe上
         const token = res.data.token
         // 登录成功之后将用户的用户名保存到本地上
@@ -76,7 +75,6 @@ export default {
         // 登录成功即需要路由跳转 (编程式路由导航)
         this.$router.push("/home")
         this.$Message.success("登录成功")
-        console.log(res)
       });
     }
   }

@@ -6,3 +6,9 @@
   .ivu-input-group-prepend {
     padding: 4px 15px;
   }
+
+
+  .ivu-modal-footer,
+  .ivu-modal-header {
+    border: none;
+  }
