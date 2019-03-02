@@ -19,7 +19,23 @@ Vue.config.productionTip = false
 const baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 axios.defaults.baseURL = baseURL
 //给vue添加一个$http的属性名称使其更舒服
-Vue.prototype.$http = axios;
+Vue.prototype.$http = axios
+// 设置一个请求拦截器
+axios.interceptors.request.use(function (config) {
+  // 在请求发送前做点什么
+  let token = window.localStorage.getItem('mytoken')
+  //判断token是否存在
+  if (token) config.headers.common['Authorization'] = token
+  return config
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
+
+
+
+
 new Vue({
   router,
   store,

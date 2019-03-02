@@ -19,7 +19,7 @@
           <i>hello</i>
           <h2>基于iview开发管理系统后台</h2>
           <span>
-            <span class="uername">xxx</span>
+             <span class="uername">用户：{{ username }}</span>
             <Button size="small" icon="ios-download-outline" type="primary" title="退出" @click="exit">退出</Button>
           </span>
         </Header>
@@ -34,8 +34,11 @@
 export default {
     data () {
         return {
-            
+          username:'xxx'
         }
+    },
+    created () {
+      this.username = window.localStorage.getItem("username")
     },
     methods: {
         exit(){
@@ -82,7 +85,7 @@ export default {
     }
     .uername {
       font-size: 14px;
-      margin-right: 10px;
+      margin-right: 20px;
     }
   }
 }
