@@ -14,11 +14,17 @@
     </Breadcrumb>
     <!-- 表格部分 -->
     <template>
-      <Table border :columns="title" :data="roleData">
+      <Table border :columns="title" :data="roleData" class="table">
         <template slot-scope="{ row }" slot="level">
           <Button :type="row.level |styleFormat " size="small">{{row.level | numFormat }}</Button>
         </template>
       </Table>
+    </template>
+    <!-- 返回部分 -->
+    <template>
+      <BackTop :height="100" :bottom="200">
+        <div class="top">返回顶端</div>
+      </BackTop>
     </template>
   </div>
 </template>
@@ -77,10 +83,10 @@ export default {
     styleFormat: data => {
       if (data == "0") {
         return "warning";
-      } else if (data == "1"){
-          return "success"
+      } else if (data == "1") {
+        return "success";
       } else {
-          return "info"
+        return "info";
       }
     }
   }
@@ -89,6 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 .right {
+  z-index: -1;
   padding: 5px;
   .breadCrumb {
     height: 40px;
@@ -96,6 +103,17 @@ export default {
     background-color: pink;
     padding-left: 10px;
     margin-bottom: 10px;
+  }
+  .table {
+    z-index: 1;
+  }
+  .top {
+    padding: 10px;
+    background: rgba(0, 153, 229, 0.7);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    z-index: 9999;
   }
 }
 </style>

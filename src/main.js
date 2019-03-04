@@ -11,6 +11,26 @@ import './styles/iview.css'
 //将包挂载到vue上
 Vue.use(iview)
 
+
+
+// 使用部分element-ui组件
+import 'element-ui/lib/theme-chalk/index.css';
+import {
+  Table,
+  TableColumn,
+  Form,
+  FormItem,
+  Button,
+  Tag
+} from 'element-ui';
+Vue.use(Table);
+Vue.use(TableColumn);
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Button);
+Vue.use(Tag);
+
+
 Vue.config.productionTip = false
 
 
@@ -31,7 +51,6 @@ axios.interceptors.request.use(function (config) {
   // Do something with request error
   return Promise.reject(error);
 });
-
 
 
 
