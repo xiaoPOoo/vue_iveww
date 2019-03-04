@@ -31,10 +31,10 @@
         <Button
           type="success"
           size="small"
-          title="添加用户"
+          title="编辑用户"
           style="margin-right: 15px"
-          @click="show(row)"
-          icon="ios-add-circle-outline"
+          @click="eidUser(row.id)"
+          icon="md-create"
         ></Button>
         <Button
           type="warning"
@@ -44,7 +44,7 @@
           title="删除用户"
           icon="ios-trash-outline"
         ></Button>
-        <Button type="primary" size="small" title="编辑用户" icon="md-create"></Button>
+        <Button type="primary" size="small" title="分配权限" icon="ios-people" @click="grant(row)"></Button>
       </template>
     </Table>
     <!-- 分页部分  -->
@@ -86,6 +86,63 @@
           </FormItem>
           <FormItem label="手机号	" prop="mobile">
             <i-input v-model="formValidate.mobile"></i-input>
+          </FormItem>
+        </Form>
+      </template>
+    </Modal>
+
+    <!-- 编辑用户 -->
+    <Modal
+      v-model="modal2"
+      title="编辑用户"
+      :loading="true"
+      :draggable="true"
+      @on-ok="handleEdiSubmit('ediFormValidate')"
+    >
+      <template>
+        <Form
+          label-position="left"
+          :label-width="60"
+          ref="ediFormValidate"
+          :model="ediFormValidate"
+          :rules="ruleValidate"
+        >
+          <FormItem label="用户名" prop="username">
+            <i-input disabled v-model="ediFormValidate.username"></i-input>
+          </FormItem>
+          <FormItem label="邮箱" prop="email">
+            <i-input v-model="ediFormValidate.email"></i-input>
+          </FormItem>
+          <FormItem label="手机号	" prop="mobile">
+            <i-input v-model="ediFormValidate.mobile"></i-input>
+          </FormItem>
+        </Form>
+      </template>
+    </Modal>
+
+    <!-- 分配角色信息 -->
+    <Modal
+      v-model="modal3"
+      title="编辑用户"
+      :loading="true"
+      :draggable="true"
+      @on-ok="handleEdiSubmit('grantFormValidate')"
+    >
+      <template>
+        <Form
+          label-position="left"
+          :label-width="60"
+          ref="grantFormValidate"
+          :model="grantFormValidate"
+          :rules="ruleValidate"
+        >
+          <FormItem label="用户" prop="username">
+            <i-input disabled v-model="grantFormValidate.username"></i-input>
+          </FormItem>
+          <FormItem label="角色信息">
+            <Select v-model="selectedRole" style="width:200px" :clearable="true">
+              <Option v-for="item in roleList" :value="item.roleName" :key="item.id"></Option>
+            </Select>
           </FormItem>
         </Form>
       </template>
@@ -137,6 +194,8 @@ export default {
       pagesize: 10, // 请求条数默认为10
       total: 0, //数据的总条数
       modal1: false, // 对话框的显影
+      modal2: false, // 编辑对话框的显影
+      modal3: false, //分配角色信息显影
       formValidate: {}, //添加用户时存放数据
       ruleValidate: {
         username: [
@@ -174,7 +233,11 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      ediFormValidate: {}, // 编辑用户提交的数据
+      grantFormValidate: {}, //分配用户信息数据
+      selectedRole: "",
+      roleList: []
     };
   },
   //调用初始化数据
@@ -197,8 +260,38 @@ export default {
       this.data1 = res.data.users;
       this.total = res.data.total;
     },
-    show(row) {
-      console.log(row);
+    // 编辑数据
+    async eidUser(id) {
+      this.modal2 = true;
+      // console.log(id);
+      //根据id查询用户信息
+      const { data: res } = await this.$http.get(`users/${id}`);
+      if (res.meta.status === 200) {
+        this.ediFormValidate = res.data;
+      }
+    },
+    //编辑数据提交数据库
+    handleEdiSubmit(name) {
+      this.$refs[name].validate(async valid => {
+        if (valid) {
+          // console.log('ok')  // 判断成功之后向服务器发情请求
+          const { data: res } = await this.$http.put(
+            `users/${this.ediFormValidate.id}`,
+            {
+              email: this.ediFormValidate.email,
+              mobile: this.ediFormValidate.mobile
+            }
+          );
+          if (res.meta.status === 200) {
+            this.modal2 = false;
+            this.$Message.success("数据更新成功");
+            this.initDate(); // 重新初始化数据
+          }
+        } else {
+          this.$Message.error("数据请求失败");
+          this.modal2 = false;
+        }
+      });
     },
     // 删除
     async remove(id) {
@@ -240,6 +333,7 @@ export default {
       //直接调用数据接口就可以了
       this.initDate();
     },
+    //处理添加用户
     handleSubmit(name) {
       this.$refs[name].validate(async valid => {
         if (valid) {
@@ -263,6 +357,16 @@ export default {
           this.modal1 = false;
         }
       });
+    },
+    //分配用户信息  // 暂时未完成 ！！！！
+    async grant() {
+      this.modal3 = true;
+      // console.log(row);
+      const { data: res } = await this.$http.get("roles");
+      console.log(res);
+      if (res.meta.status === 200) {
+        this.roleList = res.data;
+      }
     }
   }
 };
