@@ -3,13 +3,16 @@
     <Layout class="layout">
       <Sider hide-trigger class="slider">
         <div class="logo">LOGO</div>
-        <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
-          <Submenu name="1">
+        <!-- 菜单列表 -->
+        <Menu active-name="1" theme="light" width="auto"  :accordion="true">
+          <Submenu :name="list.path" v-for="list in menuList" :key="list.id">
             <template slot="title" class="menu">
-              <Icon type="ios-options"></Icon>用户管理
+              <Icon type="ios-options"></Icon>
+              {{list.authName}}
             </template>
-            <MenuItem name="1-1" to="user">
-              <Icon type="ios-navigate"></Icon>用户列表
+            <MenuItem :name="secondList.path" :to="secondList.path" v-for="secondList in list.children" :key="secondList.id">
+              <Icon type="ios-navigate"></Icon>
+              {{ secondList.authName}}
             </MenuItem>
           </Submenu>
         </Menu>
@@ -19,8 +22,14 @@
           <i>hello</i>
           <h2>基于iview开发管理系统后台</h2>
           <span>
-             <span class="uername">用户：{{ username }}</span>
-            <Button size="small" icon="ios-download-outline" type="primary" title="退出" @click="exit">退出</Button>
+            <span class="uername">用户：{{ username }}</span>
+            <Button
+              size="small"
+              icon="ios-download-outline"
+              type="primary"
+              title="退出"
+              @click="exit"
+            >退出</Button>
           </span>
         </Header>
         <Content>
@@ -32,21 +41,37 @@
 </template>
 <script>
 export default {
-    data () {
-        return {
-          username:'xxx'
-        }
+  data() {
+    return {
+      username: "xxx",
+      menuList: [] //菜单列表数据
+    };
+  },
+  created() {
+    this.username = window.localStorage.getItem("username");
+    //获取菜单列表初始化
+    this.getMenuList();
+  },
+  methods: {
+    exit() {
+      //退出需要做两件事 1清除token  2.路由跳转
+      window.localStorage.clear();
+      this.$router.push("/");
     },
-    created () {
-      this.username = window.localStorage.getItem("username")
-    },
-    methods: {
-        exit(){
-            //退出需要做两件事 1清除token  2.路由跳转
-            window.localStorage.clear()
-            this.$router.push('/')
-        }
-    },
+    async getMenuList() {
+      const { data: res } = await this.$http.get("menus");
+      console.log(res);
+      //当获取成功处理数据
+      if (res.meta.status === 200) {
+        this.menuList = res.data;
+      } else {
+        this.$Message.error({
+          content: "数据参数错误,请联系管理员！",
+          duration: 4
+        });
+      }
+    }
+  }
 };
 </script>
 

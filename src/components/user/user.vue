@@ -5,7 +5,7 @@
       <BreadcrumbItem to="/home">
         <Icon type="ios-home-outline"></Icon>首页
       </BreadcrumbItem>
-      <BreadcrumbItem to="user">
+      <BreadcrumbItem to="users">
         <Icon type="logo-buffer"></Icon>用户管理
       </BreadcrumbItem>
       <BreadcrumbItem>
