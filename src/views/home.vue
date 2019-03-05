@@ -4,7 +4,7 @@
       <Sider hide-trigger class="slider">
         <div class="logo">LOGO</div>
         <!-- 菜单列表 -->
-        <Menu active-name="1" theme="light" width="auto"  :accordion="true">
+        <Menu active-name="1" theme="dark" width="auto"  :accordion="true">
           <Submenu :name="list.path" v-for="list in menuList" :key="list.id">
             <template slot="title" class="menu">
               <Icon type="ios-options"></Icon>

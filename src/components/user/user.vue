@@ -378,7 +378,7 @@ export default {
   .breadCrumb {
     height: 40px;
     line-height: 40px;
-    background-color: pink;
+    background-color: #a7beee;
     padding-left: 10px;
     margin-bottom: 10px;
   }

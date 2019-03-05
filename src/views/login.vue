@@ -20,7 +20,7 @@
           </i-input>
         </FormItem>
         <FormItem>
-          <Button type="primary" long @click="handleSubmit('formInline')" class="button">登录</Button>
+          <Button type="primary" long @click="handleSubmit('formInline')" class="button"  @keydown.enter.native="handleSubmit('formInline')">登录</Button>
         </FormItem>
       </Form>
     </template>
