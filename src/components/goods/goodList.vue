@@ -21,7 +21,8 @@
       @keydown.enter.native="search"
     />
     <Button type="success" style="margin-left:10px" @click="search">搜索</Button>
-
+    <Button type="info" style="margin-left:10px;margin-button:5px;" to="/home/addGoods">添加商品</Button>
+    <el-alert title="点击添加商品有惊喜" type="success" show-icon class="el-alert"></el-alert>
     <!-- 数据表格 -->
     <template>
       <Table border :columns="goodsTitle" :data="goodsData" class="dataTable">
@@ -189,6 +190,9 @@ export default {
   }
   .dataTable {
     margin: 10px 0;
+  }
+  .el-alert{
+    width: 20%;
   }
 }
 </style>

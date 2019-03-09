@@ -15,6 +15,7 @@ import category from './components/goods/categroies.vue'
 import goodCategory from './components/goods/goodCategories.vue'
 import orderList from './components/order/orderList.vue'
 import reports from './components/reports/reporrList.vue'
+import addGoods from './components/goods/addGoods.vue'
 
 const router = new Router({
   routes: [
@@ -31,7 +32,8 @@ const router = new Router({
       {path:"params",component:category},
       {path:"categories",component:goodCategory},
       {path:"orders",component:orderList},
-      {path:"reports",component:reports}
+      {path:"reports",component:reports},
+      {path:"addGoods",component:addGoods}
     ]
     }
   ]

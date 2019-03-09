@@ -67,6 +67,7 @@
       :draggable="true"
       @on-ok="handleSubmit('formValidate')"
     >
+      <el-alert title="此处可以拖动哦！" type="success" show-icon class="el-alert"></el-alert>
       <template>
         <Form
           label-position="left"

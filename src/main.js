@@ -22,7 +22,12 @@ import {
   FormItem,
   Button,
   Tag,
-  Tree
+  Tree,
+  Steps,
+  Step,
+  Tabs,
+  TabPane,
+  Alert
 } from 'element-ui';
 Vue.use(Table);
 Vue.use(TableColumn);
@@ -31,6 +36,11 @@ Vue.use(FormItem);
 Vue.use(Button);
 Vue.use(Tag);
 Vue.use(Tree);
+Vue.use(Steps);
+Vue.use(Step);
+Vue.use(Tabs);
+Vue.use(TabPane);
+Vue.use(Alert)
 
 
 Vue.config.productionTip = false
