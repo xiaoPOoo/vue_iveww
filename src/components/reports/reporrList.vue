@@ -1,6 +1,16 @@
 <template>
-  <div class="reports">数据列表
-    <!-- 存放数据 -->
+  <div class="reports">
+    <Breadcrumb class="breadCrumb">
+      <BreadcrumbItem to="/home">
+        <Icon type="ios-home-outline"></Icon>首页
+      </BreadcrumbItem>
+      <BreadcrumbItem to="reports">
+        <Icon type="logo-buffer"></Icon>数据管理
+      </BreadcrumbItem>
+      <BreadcrumbItem>
+        <Icon type="ios-cafe"></Icon>数据列表
+      </BreadcrumbItem>
+    </Breadcrumb>
     <div class="main" ref="main"></div>
   </div>
 </template>
@@ -12,38 +22,20 @@ export default {
   data() {
     return {};
   },
-  // 在chuangjian
-  created() {
-    // 初始化数据，获取数据
-    this.initData();
-    //  初始化dom
-  },
-  mounted() {
+  async mounted() {
     const myChart = echarts.init(this.$refs.main);
-
+    const { data: res } = await this.$http.get("reports/type/1");
+    if (res.meta.status !== 200) return;
+    console.log(res);
     myChart.setOption({
-      title: {
-        text: "ECharts 入门示例"
+      title:{
+        text:"堆叠区域图"
       },
-      tooltip: {},
-      xAxis: {
-        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-      },
-      yAxis: {},
-      series: [
-        {
-          name: "销量",
-          type: "bar",
-          data: [5, 20, 36, 10, 10, 20]
-        }
-      ]
+      legend: res.data.legend,
+      xAxis: res.data.xAxis,
+      yAxis: res.data.yAxis,
+      series: res.data.series
     });
-  },
-  methods: {
-    async initData() {
-      const { data: res } = await this.$http.get("reports/type/1");
-      console.log(res);
-    }
   }
 };
 </script>
@@ -53,7 +45,14 @@ export default {
     width: 600px;
     height: 400px;
     margin-left: 30px;
-    border: 1px solid blue;
+    // border: 1px solid blue;
+  }
+  .breadCrumb {
+    height: 40px;
+    line-height: 40px;
+    background-color: #a7beee;
+    padding-left: 10px;
+    margin-bottom: 10px;
   }
 }
 </style>
