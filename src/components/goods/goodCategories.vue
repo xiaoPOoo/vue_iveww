@@ -12,6 +12,8 @@
         <Icon type="ios-cafe"></Icon>商品分类
       </BreadcrumbItem>
     </Breadcrumb>
+    <!-- 分类参数 -->
+    <h1>数据参数有误，正在积极修正中！</h1>
   </div>
 </template>
 
@@ -31,6 +33,10 @@ export default {};
     background-color: #a7beee;
     padding-left: 10px;
     margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 20px;
+    color: coral;
   }
 }
 </style>

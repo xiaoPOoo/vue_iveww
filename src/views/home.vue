@@ -19,7 +19,7 @@
       </Sider>
       <Layout>
         <Header class="header">
-          <i>hello</i>
+          <i></i>
           <h2>基于iview开发管理系统后台</h2>
           <span>
             <span class="uername">用户：{{ username }}</span>
@@ -89,11 +89,11 @@ export default {
         width: 200px;
         height: 64px;
         line-height: 64px;
-        color: blue;
+        color: #fff;
         text-align: center;
         font-size: 28px;
         font-weight: 800;
-        background-color: #fff;
+        // background-color: #fff;
       }
       Submenu {
         height: 60px;
